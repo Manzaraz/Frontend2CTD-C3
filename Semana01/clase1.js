@@ -40,8 +40,8 @@ function iniciarJuego() {
         let nombre = prompt("Ingese su nombre por favor:").toUpperCase().trim()
         soloLetras = /[a-zA-Z]+$/;
         // guardamos en una variable en nombre ingresado
-        // if (!isNaN(nombre) || nombre.length <= 3) {
-        if (nombre.length < 3 || !soloLetras.test(nombre)) {
+        // if (!isNaN(nombre) || nombre.length <= 3) { // validacion al estilo JS
+        if (nombre.length < 3 || !soloLetras.test(nombre)) { // VALIDACION CON expresiones regulares
             ok = true
         } else {
             ok = false

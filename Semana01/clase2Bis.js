@@ -14,29 +14,33 @@
 
 /* ------------------------------ 👇Comenzamos ------------------------------ */
 // Primero debemos limpiar los scripts anteriores y dejar solo las funciones, quitamos las variables y las empezamos a declarar solo en este script
-let puntajes = {
+
+let marcador = {
     usuario: 0,
     computadora: 0
 }
 
-const nombreDelJugador = iniciarJuego()
+// Paso 1) preguntar ¿cómo se llama el usuario?
+const nombreJugador = iniciarJuego()
 
-// 👇 mientras ninguno haya llegado a 2 puntos seguimos jugando
-while (puntajes.usuario < 2 && puntajes.computadora < 2) {
-    const RESUTADO_PARTIDA = compararJugadas()
-    alert(RESUTADO_PARTIDA)
-    console.log(RESUTADO_PARTIDA);
-
-    if (RESUTADO_PARTIDA.includes("ganaste")) {
-        puntajes.usuario++
-    } else if (RESUTADO_PARTIDA.includes("perdiste")) {
-        puntajes.computadora++
+// Paso 2) Evaluar mientras ninguno de los jugadores sume mas de 2 en el score volvemos a iniciar el bucle
+while (marcador.usuario < 2 && marcador.computadora < 2) {
+    // llamamos a la funcion que evalua las jugadas
+    const RESULTADO_PARTIDA = compararJugadas()
+    alert(RESULTADO_PARTIDA)
+    console.log(RESULTADO_PARTIDA)
+    
+    // Ahora debo incrementar el Score
+    // para ello evaluo si el mensaje de RESULTADO_PARTIDA, contiene ganaste, perdiste o empataste
+    if (RESULTADO_PARTIDA.includes("ganaste")) {
+        marcador.usuario++
+    } else if(RESULTADO_PARTIDA.includes("perdiste")) {
+        marcador.computadora++        
     }
 
-    console.log(puntajes)
+    alert(`El resultado de la ronda fue: \nMarcador del Usuario: ${marcador.usuario}\nMarcador del Computador: ${marcador.computadora}`)
+    console.log(`El resultado de la ronda fue: \nMarcador del Usuario: ${marcador.usuario}\nMarcador del Computador: ${marcador.computadora}`)
 }
-
-
 
 
 /* -------------------------------------------------------------------------- */

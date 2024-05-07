@@ -32,16 +32,24 @@ function pedirJugada() {
 /* -------------------------------------------------------------------------- */
 function jugadaRandom() {
   // Math.random()👉🏻 https://www.w3schools.com/js/js_random.asp
-  let numero = parseInt(Math.random() * 3 + 1);
+  let min = 1
+  let max = 4
+  
+  // cualquiera de estas dos opciones son aceptables de redondeo del numero, ya que redondean para abajo
+  let numeroRandom = parseInt(Math.random() * (max - min) + min )
+  // let numeroRandom = Math.floor(Math.random() * (max - min) + min )
+  
+  // no seria lo ideal
+  // let numeroRandom = Math.round(Math.random() * (max - min) + min )
+  // let numeroRandom = Math.ceil(Math.random() * (max - min) + min )
 
   // mostramos los datos por consola
   console.log("----------------------------");
   console.log("La computadora saca:")
-  console.log(numero);
+  console.log(numeroRandom);
   console.log("----------------------------");
 
-  // finalmente devolvemos el valor de la eleccion aleatoria
-  return numero;
+  return numeroRandom
 }
 
 // let jugadaPC = jugadaRandom() // Probamos la jugada
@@ -75,7 +83,7 @@ function compararJugadas() {
   return resultadoRonda;
 }
 
-const resultadoDePartida = compararJugadas()
+// const resultadoDePartida = compararJugadas()
 
 
 

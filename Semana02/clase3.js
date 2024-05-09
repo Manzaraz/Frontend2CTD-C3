@@ -107,7 +107,9 @@ console.log(sitio.classList.toggle("dark"))
 // 2- Debemos preguntarle al usuario mediante un confirm si desea usar el modo oscuro.
 // 3- Si el usuario confirma debemos aplicar la clase "dark" al "sitio", si cancela debe quedar en modo claro.
 // 4- A su vez, si está en modo onsecuritypolicyviolation, el texto del boton debe decir "Cambiar a modo claro 🌞". De lo contrario, si está en modo claro debeb decir "Cambiar a modo oscuro 🌛"
+
 function elegirTema() {
+    // * Créditos Miguel Castillo 
     const sitio = document.querySelector("body");
     const btnTema = document.querySelector(".tema button");
     const confirmacion = confirm("¿Desea usar el modo oscuro?");

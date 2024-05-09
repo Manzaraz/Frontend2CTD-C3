@@ -87,7 +87,6 @@ main.innerHTML += `
         <img src="${ultimoMomento.foto}" alt="Imagen ${ultimoMomento.titulo}">
         <p>${ultimoMomento.epigrafe}</p>
     </article>
-
 `
 
 

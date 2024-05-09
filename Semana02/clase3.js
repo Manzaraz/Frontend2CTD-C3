@@ -110,20 +110,7 @@ console.log(sitio.classList.toggle("dark"))
 
 function elegirTema() {
     // * Créditos Miguel Castillo 
-    const sitio = document.querySelector("body");
-    const btnTema = document.querySelector(".tema button");
-    const confirmacion = confirm("¿Desea usar el modo oscuro?");
-  
-    if (confirmacion) {
-      sitio.classList.add("dark");
-      btnTema.textContent = "Cambiar a modo claro 🌞";
-    } else {
-      sitio.classList.remove("dark");
-      btnTema.textContent = "Cambiar a modo oscuro 🌛";
-    }
-  }
-  
-  function changeTheme() {
+   
     const sitio = document.querySelector("body");
     const btnTema = document.querySelector(".tema button");
   

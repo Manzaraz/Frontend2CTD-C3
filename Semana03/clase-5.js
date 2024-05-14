@@ -44,7 +44,41 @@ const albumesFamosos = [{
 /* -------------------------------------------------------------------------- */
 //do while, prompt, innerText
 function obtenerUsuario() {
+    const nombreDeUsuario = document.querySelector("#nombreUsuario")
+    // console.log(nombreDeUsuario);
+
+    let usuario = ""
+
+    do {
+        usuario = prompt("Ingrese su nombre de usuario:")
+    } while (usuario == null && usuario == "" && usuario.length < 3);
+
+    // guardar la primera letra como mayuscula
+    /* // Esto es para capitalizar paso a paso
+    let primraLetra = usuario.charAt(0).toUpperCase()
+    let restoDelNombre = usuario.slice(1).toLowerCase()
+    // console.log(primraLetra + restoDelNombre);
+    */
+
+    // divido los nombres del usuario y los guardo en nombres... me da un array de nombres
+    let nombres = usuario.split(" ")
+    // console.log(nombres);
+
+    // iteraremos ese array de nombres para capitalizar cada nombre
+    usuario = nombres.map( nombre => {
+        return nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase()
+    }).join(" ")
     
+    // refactorizar el map para que quede en una sola linea
+    usuario = nombres.map( nombre => nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase()).join(" ")    
+
+    console.log(usuario);
+
+    nombreDeUsuario.innerHTML = usuario
+    // nombreDeUsuario.textContent = usuario
+    // nombreDeUsuario.createTextNode = usuario // no es la manera correcta de usar createTextNode
+    // nombreDeUsuario.createTextNode(usuario) // no es la manera correcta de usar createTextNode
+    // nombreDeUsuario.append(document.createTextNode(usuario)) // Es la manera correcta de usar createTextNode☑️
 }
 
 // obtenerUsuario();
@@ -54,7 +88,45 @@ function obtenerUsuario() {
 /* -------------------------------------------------------------------------- */
 //forEach, template strings, innerHTML
 function renderizarAlbumes(listado) {
-    
+    const covers = document.querySelector(".covers")
+    covers.innerHTML = ""
+
+    listado.forEach(album => {
+            /* // Metodo de insercion de nodos
+            // primero debo crear los selectore
+            const li = document.createElement("li") // padre o wrapper (envolvedor)
+            const img = document.createElement("img")
+            const p = document.createElement("p")
+            const i = document.createElement("i")
+        
+            // Agregamos los atributos de cada nodo de las etiquetas creadas
+            li.setAttribute("data-id", album.id )    
+            // img.setAttribute("src", album.id)
+            // img.setAttribute("alt", album.nombre)
+            img.src = album.imagen
+            img.alt = album.nombre
+
+            p.textContent = album.nombre
+            i.id = album.id
+            // i.classList.add("fa fa-heart")// esto me da error porque el metodo classlist no funciona sobre un elemento que no este colocado en el dom
+            i.setAttribute("class",`fa fa-heart${album.like ? " favorito" : ""}`)// de esta manera lo remedio
+
+            // cargamos los elementos al wraper (li)
+            li.appendChild(img)
+            li.appendChild(p)
+            li.appendChild(i)
+
+            covers.appendChild(li)
+            */
+           covers.innerHTML += `
+            <li data-id="${album.id}x123">
+                <img src="${album.imagen}" alt="album ${album.nombre}">
+                <p>${album.nombre}</p>
+                <i id="${album.id}" class="fa fa-heart${album.like ? ' favorito' : ''}"></i>
+            </li>
+           `        
+    });
+
 }
 
 renderizarAlbumes(albumesFamosos);

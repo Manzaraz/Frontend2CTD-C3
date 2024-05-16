@@ -7,6 +7,42 @@
 function marcarFavorito() {
     // Debemos seleccionar todos los botones de like
     // <i id="x123" class="fa fa-heart favorito"></i>
+    const botnesLike = document.querySelectorAll(".fa-heart")
+    // console.log(botnesLike);
+
+    botnesLike.forEach( boton => {
+        boton.addEventListener("click", function (evento) { // a cada boton agrego un listener para que pueda ver quien desencadeno el evento
+            console.log(evento);
+            console.log(evento.target);
+            console.log(evento.target.id); // es un dato util guardar este id del evento lanzado para iterarlo luego
+
+            // variable para guardar el id
+            let albumId = evento.target.id
+
+            albumesFamosos.forEach(album => {
+                if (albumId == album.id) {
+                    console.log(`Coinciden los ids de albumId: ${albumId}, con el id del album iterado: ${album.id}`);
+                    console.log(album.like);
+
+                    // if (album.like == true) {
+                    //     album.like = false
+                    // } else {
+                    //     album.like = true                        
+                    // }
+
+                    album.like = !album.like
+                    console.log(album.like);
+                }
+            });
+
+            // Renderizar (pintar) nuevamente las tarjetas para que se pinte los like de los álbumes
+            renderizarAlbumes(albumesFamosos)
+            mostrarDatosEnPerfil(albumesFamosos)
+
+            // Recursividad: para agreagar nuevamente el listener para seguir escuchado el eveto de los botones
+            marcarFavorito()
+        })
+    })
 }
 marcarFavorito()
 
@@ -26,17 +62,15 @@ marcarFavorito()
 // 5- Acto seguido debemos llamar a las funciones de renderizar y marcar favorito para que sean nuevamente aplicadas.
 
 
-window.addEventListener("keydown", function(evento) {
-    // console.log(evento.key);
-    // console.log(evento.code);
-    eliminarAlbum(evento)
-})
 
-// window.addEventListener("keydown", eliminarAlbum)
+window.addEventListener("keydown", eliminarAlbum )
+
+function eliminarAlbum(event) {
+    console.log(event);
+    console.log(event.code);
+    console.log(event.key);
 
 
-function eliminarAlbum(e) {
-    
 }
 
-eliminarAlbum()
+// eliminarAlbum()

@@ -127,6 +127,8 @@ function renderizarAlbumes(listado) {
            `        
     });
 
+    
+
 }
 
 renderizarAlbumes(albumesFamosos);

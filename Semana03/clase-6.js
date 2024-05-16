@@ -6,7 +6,7 @@
 // - volver a renderizar
 function marcarFavorito() {
     // Debemos seleccionar todos los botones de like
-    
+    // <i id="x123" class="fa fa-heart favorito"></i>
 }
 marcarFavorito()
 

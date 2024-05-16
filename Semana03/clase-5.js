@@ -33,7 +33,7 @@ const albumesFamosos = [{
     id: "c321",
     nombre: "Back in Black",
     imagen: "https://i1.wp.com/www.scienceofnoise.net/wp-content/uploads/2020/07/068660474366a63e1263e53ff370eb50.jpg",
-    like: false
+    like: true
 }
 ];
 
@@ -145,6 +145,27 @@ renderizarAlbumes(albumesFamosos);
 // sea necesario ( es decir: 1 album, 1 favorito / 2 albumes, 3 favoritos )
 function mostrarDatosEnPerfil(albumes) {
     // desarrollar la función 👇
-    
+    // Créditos: Yolanda Godines Castillo 👏🏼
+    const cantAlbumes = document.querySelector("#cant-albums")
+    const cantFavoritos = document.querySelector("#cant-favoritos")
+
+    let nAlbumes=0 // contador de albumes
+    let nFavoritos=0 // contador de favoritos
+
+    // itero para contar en cada caso
+    albumesFamosos.forEach(album => { 
+        // nAlbumes += 1
+        nAlbumes++
+        // if(album.like == true){ // aqui incremento si la propiedad es true (o sea es favorito)
+        if(album.like){ // aqui incremento si la propiedad es true (o sea es favorito)
+            // nFavoritos += 1
+            nFavoritos++
+        }
+    })
+
+    //album y favorito en singular y plural :) 
+    cantAlbumes.textContent = `${nAlbumes} ${nAlbumes == 1 ? "album" : "albumes"}`
+    cantFavoritos.textContent = `${nFavoritos} ${nFavoritos == 1 ? "favorito" : "favoritos"}`
+     
 }
 mostrarDatosEnPerfil(albumesFamosos);

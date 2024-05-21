@@ -66,11 +66,33 @@ marcarFavorito()
 window.addEventListener("keydown", eliminarAlbum )
 
 function eliminarAlbum(event) {
-    console.log(event);
-    console.log(event.code);
-    console.log(event.key);
+    // console.log(event);
+    // console.log(event.code);
+    // console.log(event.key);
 
+    if (event.code == "KeyF") {
+        console.log("Si! presionaste la tecla 'F'");
 
+        // pido al usuario que me indique cual album deseo eliminar
+        const albumAEliminar = prompt("¿Cuál album deseas eliminar?").toLowerCase()
+        console.log(albumAEliminar);
+
+        const posicionAEliminar = albumesFamosos.findIndex( album => album.nombre.toLowerCase() == albumAEliminar)
+        console.log(posicionAEliminar);
+
+        if (posicionAEliminar == -1) {
+            alert("🚨¡El álbum que introdujiste no se encuentra en tu playlist!")
+        } else {
+            albumesFamosos.splice(posicionAEliminar, 1)
+        }
+
+        // Renderizar (pintar) nuevamente las tarjetas para que se pinte los like de los álbumes
+        renderizarAlbumes(albumesFamosos)
+        mostrarDatosEnPerfil(albumesFamosos)
+
+        // Recursividad: para agreagar nuevamente el listener para seguir escuchado el eveto de los botones
+        marcarFavorito()
+    }
 }
 
 // eliminarAlbum()

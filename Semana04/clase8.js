@@ -60,18 +60,17 @@ const form = document.querySelector("form")
 
 form.addEventListener("submit", function (ev) {
     // Prevenimos el comportamiento por defecto del HTML
-    ev.preventDefault()
-    
+    ev.preventDefault()    
 
     //pedir los datos ingresados en los inputs invocando a la funcion de arriba
     const datos = capturarDatosFormulario()
     // console.log(datos);
 
-    // validar los datos    
-    // con los errores capturados necesito pintarlos en pantalla para darle un feedback al usuario
+    // validar los datos y guardamos ese array de errores
     const errores = validarInformacion(datos)
-
-
+    // con los errores capturados necesito pintarlos en pantalla para darle un feedback al usuario
+    
+    
     // muestro un cuadro de dialogo con los errores para que los corrija
     renderizarErrores(errores)
 
@@ -162,4 +161,8 @@ function validarInformacion(usuario) {
 
 function mostrarMensajeExito(listado) {
 
+
+    setTimeout(() => {
+        console.log("Delayed for 1 second.");
+    }, 4000);
 }

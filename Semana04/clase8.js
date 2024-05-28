@@ -160,9 +160,30 @@ function validarInformacion(usuario) {
 // 5 - finalmente pasados 4 segundos: se debe eliminar esa caja, habilitar el boton y limpiar el formulario
 
 function mostrarMensajeExito(listado) {
+    // console.log(listado);
+
+    if (listado.length == 0) {   
+        const divTemplate = document.createElement("div")
+        divTemplate.setAttribute("id", "exito")
+        divTemplate.style = "background:rgba(0, 255, 0, 0.2);padding:.5em 1em;color: green;margin:0.5em 0"
+
+        divTemplate.innerHTML += `<p><span>"¡Formulario completado con éxito!"</span></p>`
+
+        form.appendChild(divTemplate)
+
+        const boton = document.querySelector("button")
+        boton.setAttribute("disabled", "")
+   
+        const cajaExito = document.querySelector("#exito")
+
+        setTimeout(() => {
+            console.log("Success(exito)");
+
+            boton.removeAttribute("disabled")
+            form.reset()
+            cajaExito.remove()
+        }, 4000);
+    }
 
 
-    setTimeout(() => {
-        console.log("Delayed for 1 second.");
-    }, 4000);
 }

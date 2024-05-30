@@ -63,8 +63,8 @@ formulario.addEventListener("change", () => {
     // console.log("Hay un cambio");
 
     // 👇 actualizo el estado de la pantalla con los datos
-    estadoUsuario.email = inputEmail.value
-    estadoUsuario.password= inputPassword.value
+    estadoUsuario.email = inputEmail.value.trim()
+    estadoUsuario.password= inputPassword.value.trim()
     estadoUsuario.rol = inputRol.value
     estadoUsuario.terminos = inputTerminos.checked 
     console.log(estadoUsuario);

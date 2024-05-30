@@ -42,7 +42,7 @@ function obtenerDatosDelUsuario() {
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(" ");
 
-  datosPersona = { // Si quieren saber más de destructuring
+  datosPersona = { // Si quieren saber más de destructuring ➡️ https://www.freecodecamp.org/espanol/news/desestructuracion-de-arreglos-y-objetos-en-javascript/
     nombre: capitalizeWords(name),
     edad: 2024 - birthYear,
     ciudad: capitalizeWords(city),

@@ -6,22 +6,48 @@
 /* -------------------------------------------------------------------------- */
 /*           [6] FUNCION: Escuchamos el evento de carga de la página          */
 /* -------------------------------------------------------------------------- */
+window.addEventListener("load", () => { 
+    const usuario = recuperarDataDelStorage()
+    // console.log(usuario);
 
+
+    renderizarElementos(usuario)
+ })
 
 /* -------------------------------------------------------------------------- */
 /*                 [7] FUNCION: Recuperar la info del storage                 */
 /* -------------------------------------------------------------------------- */
 function recuperarDataDelStorage() {
     // buscamos la data almacenada en nuestro bolsillo (localStorage)
-    
+    // console.log(localStorage);
+    // console.log(localStorage.getItem("user"));
+    const jsonDelUsuario = localStorage.getItem("user")
+    // console.log(jsonDelUsuario); // como esto no es un objeto (dato potable) no puedo jugar con los datos del mismo 
+
+    // necesito traducir ese json a un objeto literal de js
+    const datosParseados = JSON.parse(jsonDelUsuario)
+    // console.log(datosParseados);
+
+    return datosParseados
 }
 
 /* -------------------------------------------------------------------------- */
 /*                [8] FUNCION: Renderizamos la info en pantalla               */
 /* -------------------------------------------------------------------------- */
 function renderizarElementos(objetoJS) {
-    
+    console.log(objetoJS);
+    console.log(objetoJS.email);
+    console.log(objetoJS.rol);
 
+    // <h4 id="email"></h4>
+    // <p id="perfil"></p>
+
+    const email = document.querySelector("#email")
+    const perfil = document.querySelector("#perfil")
+
+    // renderizo los selectores 
+    email.textContent = objetoJS.email
+    perfil.textContent = objetoJS.rol
     
 }
 
@@ -49,5 +75,5 @@ function renderizarElementos(objetoJS) {
 
 function botonCerrarSesion() {
     //    👇 desarrollar la función
-
+    
 }

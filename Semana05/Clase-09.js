@@ -157,8 +157,8 @@ formulario.addEventListener("submit", (evento) => {
         estadoErroresOK.rol &&
         estadoErroresOK.terminos
     ) {
-        
-        alert("Tu formulario fue completado con éxito")
+       
+        // alert("Tu formulario fue completado con éxito")
         navegarPaginaExito()
     }
 
@@ -184,6 +184,8 @@ function navegarPaginaExito() {
     // boton.setAttribute("disabled","")
     boton.disabled = true
     boton.textContent = "Cargando..."
+
+    localStorage.setItem('user', JSON.stringify(estadoUsuario)); // esto es para almacenar los datos del usuario en el localStorage
 
 
     setTimeout(() => {

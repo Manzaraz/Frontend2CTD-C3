@@ -122,7 +122,7 @@ function validarPassword(password) {
 
 function validarRol(rol) {
     let resultado = false
-    if (rol == "frontend" || rol == "backend") {
+    if (rol == "frontend" || rol == "backend" || rol != "") {
         resultado = true
     }
 
@@ -180,7 +180,13 @@ formulario.addEventListener("submit", (evento) => {
 
 function navegarPaginaExito() {
     //  desarrollar la funcion aqui
-    
+    const boton = document.querySelector("button")
+    // boton.setAttribute("disabled","")
+    boton.disabled = true
+    boton.textContent = "Cargando..."
 
 
+    setTimeout(() => {
+        location.replace("./usuario.html")
+    }, 4500);
 }

@@ -75,7 +75,25 @@ let listadoComentarios = [{
 /* -------------------------------------------------------------------------- */
 /*                      [1] FUNCION: Escuchamos el click                      */
 /* -------------------------------------------------------------------------- */
+const btn = document.querySelector("button")
+// console.log(btn);
 
+btn.addEventListener("click", () => { 
+    console.log("Click activado"); 
+
+    var endpoint = "www.google.com" // la url donde voy a consultar el recurso
+    // var endpoint = "www.yahoo.com" // la url INCORRECTA donde voy a consultar el recurso
+
+    consultaAsincrona(endpoint)
+    .then( (respuesta) => {
+        console.log(respuesta)
+    })
+    .catch( error => {
+        console.log(error);
+    })
+
+
+})
 
 
 /* -------------------------------------------------------------------------- */
@@ -84,6 +102,27 @@ let listadoComentarios = [{
 // Creamos una funcion que retorna una promesa despues de 2,5 segundos.
 // La idea es simular la demora de tiempo en responder de un servidor.
 
+function consultaAsincrona(url) {
+    console.log(url);
+
+    // checkee info en la api, y verificando que url es la correcta
+    return new Promise ( (resolve, reject) => {
+        // simulacion de espera de respueata a la API
+        setTimeout(() => {
+            // Checkeamos si la url es correcta
+            if (url == "www.google.com") {
+                // si la url es correcta resuelvo la promesa
+                resolve(listadoComentarios)
+            } else {
+                // si la url no es correcta
+                reject({
+                    message: "Consulta rechazada."
+                })
+            }
+        }, 2500);
+    })
+
+}
 
 
 

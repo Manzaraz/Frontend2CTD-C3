@@ -187,7 +187,6 @@ function navegarPaginaExito() {
 
     localStorage.setItem('user', JSON.stringify(estadoUsuario)); // esto es para almacenar los datos del usuario en el localStorage
 
-
     setTimeout(() => {
         location.replace("./usuario.html")
     }, 4500);

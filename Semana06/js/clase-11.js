@@ -93,7 +93,6 @@ btn.addEventListener("click", () => {
         console.log(error);
     })
 
-
 })
 
 
@@ -153,6 +152,6 @@ function renderizarElementos(listado){
         </div>`
     })
     console.log(comentariosRenderizados);
-    comentarios.innerHTML = comentariosRenderizados
-    // comentarios.innerHTML = comentariosRenderizados.join("")
+    // comentarios.innerHTML = comentariosRenderizados
+    comentarios.innerHTML = comentariosRenderizados.join("")
 }

@@ -9,7 +9,24 @@
 // Esta API tiene su documentación en: const boton = document.querySelector('button');
 // Vamos a implementar el endpoint que nos devuelve comentarios para mostrarlos en pantalla.
 function consultaApi(endpoint) {
-  
+
+    fetch(endpoint)
+        .then( respuestaEnJson =>{
+            console.log(respuestaEnJson);
+            if (!respuestaEnJson.ok) { // este if me sirve para capturar, si algo va mal en la consulta a la api, tomando como referencia la propiedad ok del obj respuesta
+            // if (!respuestaEnJson.status >= 400) { // este if me sirve para capturar, si algo va mal en la consulta a la api, tomando como referencia la propiedad ok del obj respuesta
+                return Promise.reject(respuestaEnJson) // fuerzo un rechazo de la promesa, para que lo capture el .catch
+            }
+
+            return respuestaEnJson.json() // .json() un metodo propio del fetch, me permite traducir (JSON.parse), con la ventaja que me trae el array que necesito iterar
+        })
+        .then( datos => {
+            // console.log(datos);  // acá ya tengo los datos parseado por el return de L19
+            renderizarElementos(datos)
+        })
+        .catch( err => {
+            console.log(err);
+        })
 }
 
 
@@ -18,7 +35,16 @@ function consultaApi(endpoint) {
 /* -------------------------------------------------------------------------- */
 // Vamos a reimplementar la escucha del click lanzar las nuevas funciones.
 const boton = document.querySelector('button');
-const url = "https://jsonplaceholder.typicode.com/posts"
+const url = "https://jsonplaceholder.typicode.com/comments"
+// const url = "https://jsonplaceholder.typicodeS.com/commentsS"
+
+boton.addEventListener("click", () => { 
+    console.log("🚩 Hizo click para ver comentarios...");
+
+    consultaApi(url)
+    
+    console.log("🚩 Fin de la carga de comentarios...");
+ })
 
 
 /* -------------------------------------------------------------------------- */
@@ -28,6 +54,21 @@ const url = "https://jsonplaceholder.typicode.com/posts"
 // el .map() y .join() para obtener el resultado esperado.
 
 function renderizarElementos(listado){
+    console.log(listado);
+    
+    const comentarios = document.querySelector(".comentarios");
+    comentarios.innerHTML = "";
+    // desarrollar la funcion 👇
+    const comentariosRenderizados = listado.map((comentario) => {
+        return `<div class="comentario">
+            <h4>${comentario.email}</h4>
+            <p>${comentario.body}</p>
+        </div>`
+    })
+    // console.log(comentariosRenderizados);
+    // comentarios.innerHTML = comentariosRenderizados
+    comentarios.innerHTML = comentariosRenderizados.join("")
+
 
 }
 

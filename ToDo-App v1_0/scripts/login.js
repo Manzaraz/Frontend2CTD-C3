@@ -6,8 +6,6 @@ window.addEventListener('load', function () {
     const password = document.querySelector("#inputPassword")
     const url = "https://todo-api.digitalhouse.com/v1"
 
-
-
     /* -------------------------------------------------------------------------- */
     /*            FUNCIÓN 1: Escuchamos el submit y preparamos el envío           */
     /* -------------------------------------------------------------------------- */
@@ -31,9 +29,6 @@ window.addEventListener('load', function () {
         }
  
         realizarLogin(settings)
-
-
-
     });
 
 
@@ -41,12 +36,12 @@ window.addEventListener('load', function () {
     /*                     FUNCIÓN 2: Realizar el login [POST]                    */
     /* -------------------------------------------------------------------------- */
     function realizarLogin(settings) {
-       console.log(settings);
+    //    console.log(settings);
        console.log("🏄🏻‍♂️Lanzando la consulta a la API....");
 
         fetch(`${url}/users/login`, settings)
             .then( response => {
-                console.log(response);
+                // console.log(response);
 
                 // manejar el error de la request, si todo va bien, esta respuesta la capturaremos en el siguiente .then
                 if (response.ok) return response.json(response)
@@ -65,7 +60,6 @@ window.addEventListener('load', function () {
                     form.reset() // para limpiar los campos de los inputs del formulario
 
                     location.replace("./mis-tareas.html") // redireccionamos a nuestro dashboard de todo
-
                 }
 
             })

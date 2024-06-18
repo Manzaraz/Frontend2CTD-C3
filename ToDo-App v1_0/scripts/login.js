@@ -17,7 +17,7 @@ window.addEventListener('load', function () {
             email: email.value,
             password: password.value,
         }
-        // console.log(payload);
+        ////  console.log(payload);
 
         // Configuramos la request (consulta) a la API
         const settings = {
@@ -36,12 +36,12 @@ window.addEventListener('load', function () {
     /*                     FUNCIÓN 2: Realizar el login [POST]                    */
     /* -------------------------------------------------------------------------- */
     function realizarLogin(settings) {
-    //    console.log(settings);
-       console.log("🏄🏻‍♂️Lanzando la consulta a la API....");
+        //  console.log(settings);
+      //  console.log("🏄🏻‍♂️Lanzando la consulta a la API....");
 
         fetch(`${url}/users/login`, settings)
             .then( response => {
-                // console.log(response);
+                ////  console.log(response);
 
                 // manejar el error de la request, si todo va bien, esta respuesta la capturaremos en el siguiente .then
                 if (response.ok) return response.json(response)
@@ -50,8 +50,8 @@ window.addEventListener('load', function () {
                 return Promise.reject(response)
             })
             .then( data => {
-                console.log(data);
-                console.log(data.jwt);
+               //  console.log(data);
+               //  console.log(data.jwt);
 
                 if (data.jwt) {
                     // guardar el dato de JWT en el local storfage (ese token), para hacer el login
@@ -64,8 +64,8 @@ window.addEventListener('load', function () {
 
             })
             .catch( err => {
-                // console.log(err);
-                // console.log(err.status);
+                ////  console.log(err);
+                ////  console.log(err.status);
 
                 // 400 Contraseña incorrecta
                 // 404	El usuario no existe

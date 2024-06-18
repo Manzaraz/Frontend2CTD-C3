@@ -1,27 +1,26 @@
 // SEGURIDAD: Si no se encuentra en localStorage info del usuario
 // no lo deja acceder a la página, redirigiendo al login inmediatamente.
+// console.log(localStorage);
 // console.log(localStorage.jwt);
-if (!localStorage.jwt) {
+if (!localStorage.jwt){
   location.replace("./index.html")
 }
-
-
 
 /* ------ comienzan las funcionalidades una vez que carga el documento ------ */
 window.addEventListener('load', function () {
   /* ---------------- variables globales y llamado a funciones ---------------- */
-  const formCrearTarea = document.querySelector(".nueva-tarea")
   const btnCerrarSesion = document.querySelector("#closeApp")
+  const formCrearTarea = document.querySelector(".nueva-tarea")
   const nuevaTarea = document.querySelector("#nuevaTarea")
 
-  // variables de conexion a la api
-  const url = "https://todo-api.digitalhouse.com/v1"
-  const urlTareas = `${url}/tasks`
+  // Variables de conexion a la API
+  const url = "https://todo-api.digitalhouse.com/v1";
   const urlUsuario = `${url}/users/getMe`
+  const urlTareas = `${url}/tasks`
   const token = JSON.parse(localStorage.jwt)
-  // const token = localStorage.jwt
+  console.log(token);
 
-
+  // lamamos a los fetch para obtener los datos de usuarios y sus tareas
   obtenerNombreUsuario()
   consultarTareas()
 
@@ -30,12 +29,13 @@ window.addEventListener('load', function () {
   /* -------------------------------------------------------------------------- */
 
   btnCerrarSesion.addEventListener('click', function () {
-    const cerrarSesion = confirm("¿Estás seguro de que deseas cerra sesión?")
-
+    // console.log("Quiere cerrar sesión");
+    const cerrarSesion = confirm("¿Estás seguro de que deseas cerrar sesión?")
+  
     if (cerrarSesion) {
-    // limpiar el localStorage
-    localStorage.clear()
-    location.replace("./index.html")
+     // limpie el local storage y luego me redirija al home
+     localStorage.clear()
+     location.replace("./index.html")
     }
   });
 
@@ -52,20 +52,17 @@ window.addEventListener('load', function () {
     }
     console.log(settings);
 
-    // hago nuestra consulta a la api para obtener los datos del usuario
+    // hacemos la consulta a la API
     fetch(urlUsuario, settings)
-      .then( response => {
-        console.log(response);
-        return response.json(response)
-      })
-      .then( data => {
-        console.log(data);
-        console.log(data.firstName);
+      .then( response => response.json())
+      .then( userData => {
+        console.log(userData);
+        console.log(userData.firstName);
 
-        const nombreUsuario = document.querySelector(".user-info p")
-        nombreUsuario.textContent = data.firstName
-      })
-      // .catch(err => console.log(err)) // lo comento... por que necesario, salvo que en la etapa del debbugin tenga problemas al capturar el token
+        const nombreDelUsuario = document.querySelector(".user-info p")
+        nombreDelUsuario.textContent = userData.firstName
+      } )
+      .catch( err => console.log(err)) // no es siempre necesario usar el catch en esta instancia
   };
 
 
@@ -77,26 +74,24 @@ window.addEventListener('load', function () {
     const settings = {
       method: "GET",
       headers: {
-        authorization: token
+        authorization: token,
+        "content-type": "application/json",
       }
     }
-
-    console.log("🚩 Consultando mis tareas");
-    fetch(urlTareas, settings)
-      .then( res => res.json())
+    
+    // hacemos la consulta a la API
+    console.log("⛳️ Consultando mis tareas");
+    fetch( urlTareas, settings )
+      .then( response => response.json())
       .then( tareas => {
-        // console.log("Tareas del usuario");
-        // console.log(tareas);
+        console.log("Tareas del usuario");
+        console.log(tareas);
 
-        // llamo a pintar las tareas en pantalla
         renderizarTareas(tareas)
         botonesCambioEstado()
         botonBorrarTarea()
       })
-      .catch( err => console.warn(err))    
-
-
-
+      .catch( err => console.log(err))
   };
 
 
@@ -105,37 +100,36 @@ window.addEventListener('load', function () {
   /* -------------------------------------------------------------------------- */
 
   formCrearTarea.addEventListener('submit', function (event) {
-    event.preventDefault()
+    event.preventDefault()    
 
-    console.log("🚩 Tarea nueva");
+    console.log("🚩 nueva tarea.... creandose");
     console.log(nuevaTarea.value);
 
+    // creamos nuestra bomba💣 para enviar a destino del fetch
     const payload = {
       description: nuevaTarea.value.trim(),
-      // completed: true  // si no le envio esta propiedad, la api me creara completed en false
+      // completed: true
     }
-    console.log(payload);
 
     const settings = {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {
         authorization: token,
-        "Content-Type": "application/json"
+        "content-type": "application/json"
       }
     }
 
-    console.log("Creamos una nueva tarea en la api");
-    fetch(urlTareas, settings)
-      .then( response => response.json())
-      .then( tarea => {
-        console.log(tarea);
-        consultarTareas(tarea)
+    // Creamos nuestra tarea en la api
+    console.log("Creando una nueva tarea en la db");
+    fetch( urlTareas, settings )
+      .then( response => response.json() )
+      .then( tareaCreada => {
+        console.log(tareaCreada);
+        consultarTareas()
       })
-      .catch( err => console.warn(err))
 
-      // necesitamos limpiar el formulario
-      formCrearTarea.reset()
+    formCrearTarea.reset()// finalmente limpio el formulario
   });
 
 
@@ -143,114 +137,104 @@ window.addEventListener('load', function () {
   /*                  FUNCIÓN 5 - Renderizar tareas en pantalla                 */
   /* -------------------------------------------------------------------------- */
   function renderizarTareas(listado) {
-    console.log(listado);
-    // buscar los elementos del dom donde irán nuestras tareas
-    const tareasPendientes = document.querySelector(".tareas-pendientes")
+    // console.log(listado);
     const tareasTerminadas = document.querySelector(".tareas-terminadas")
-    tareasPendientes.innerHTML = ""
+    const tareasPendientes = document.querySelector(".tareas-pendientes")
     tareasTerminadas.innerHTML = ""
+    tareasPendientes.innerHTML = ""
 
-    // el contador de tareas finalizadas
     const cantidadFinalizadas = document.querySelector("#cantidad-finalizadas")
     let contador = 0
     cantidadFinalizadas.textContent = contador
     
     listado.forEach(tarea => {
-      console.log(tarea.completed);
+      // la variable intermedia para manipular de la fecha
+      let fecha = new Date(tarea.createdAt)
 
-      /// veamos la fecha
-      // console.log(tarea.createdAt);
-      let fecha = new Date(tarea.createdAt).toLocaleDateString()
+      // renderizar condicionalmente dependiendo si pose la propiedad completed en true.... caso contrario y imprimo las tareas pendientes
+      if (tarea.completed) {
+        contador++ // sumamos el contador pues está completed en true
 
-      if (tarea.completed) { // Imprimir las tareas completadas
-        contador++ /// sumamos el contador, porque la tarea está completada
-
-        // imprimir las tareas completadas
+        //imprimir las tareas completadas
         tareasTerminadas.innerHTML += `
-          <li class="tarea" data-id=${tarea.id}>
+          <li class="tarea" data-id="${tarea.id}">
             <div class="hecha">
               <i class="fa-regular fa-circle-check"></i>
             </div>
             <div class="descripcion">
               <p class="nombre">${tarea.description}</p>
               <div class="cambios-estados">
-                <button class="change incompleta" id=${tarea.id}><i class="fa-solid fa-rotate-left"></i></button>
-                <button class="borrar" id=${tarea.id}><i class="fa-regular fa-trash-can"></i></button>
+                <button class="change incompleta" id="${tarea.id}"><i class="fa-solid fa-rotate-left"></i></button>
+                <button class="borrar" id="${tarea.id}"><i class="fa-regular fa-trash-can"></i></button>
               </div>
             </div>
           </li>
         `
-      } else { // Imprimir las tareas pendientes
+      } else {
+        // ahora me queda imprimir las tareasd pendientes
         tareasPendientes.innerHTML += `
-          <li class="tarea" data-id=${tarea.id}>
-            <button class="change" id=${tarea.id}><i class="fa-regular fa-circle"></i></button>
+          <li class="tarea" data-id="${tarea.id}">
+            <button class="change" id="${tarea.id}"><i class="fa-regular fa-circle"></i></button>
             <div class="descripcion">
               <p class="nombre">${tarea.description}</p>
-              <p class="timestamp">${fecha}</p>
+              <p class="timestamp">${fecha.toLocaleDateString()}</p>
             </div>
           </li>
-        `
-      }
-
+        ` 
+      }      
     });
 
-    // actualizamos el contador en pantalla, con el valor para las true
+    //actualizar el contador en la pantalla
     cantidadFinalizadas.textContent = contador
-
   };
 
   /* -------------------------------------------------------------------------- */
   /*                  FUNCIÓN 6 - Cambiar estado de tarea [PUT]                 */
   /* -------------------------------------------------------------------------- */
   function botonesCambioEstado() {
-    // capturamos todos los botones con la clase .change
-    const btnsCambioEstado = document.querySelectorAll('.change ')
+    const btnsCambioDeEstado = document.querySelectorAll(".change")
+    // console.log(btnsCambioDeEstado);
 
-    btnsCambioEstado.forEach( boton =>{
-      // a cada boton le agrego un evento
-      boton.addEventListener("click", (ev) => {
-        console.log("Cambio de estado de la tarea");
+    btnsCambioDeEstado.forEach( boton => {
+      //a cada boton le asignamos una funcionalidad
+      boton.addEventListener("click", (ev) => { 
         console.log(ev.target);
-        // console.log(ev.target.id);
-
+        console.log(ev.target.id);
         const id = ev.target.id
-        const urlChange = urlTareas + `/${id}`
-        // console.log(urlChange);
-        const payload = {}
+        const urlChange = `${urlTareas}/${id}`
+        console.log(urlChange);
 
-        //segun el tipo de boton que fue clickeado, cambiamos el estado de la tarea pendiente o no
+        const payload = { }
+
+        //segun el tipo de boton que fue clickeado, cambiamos el estado de la tarea
+
         if (ev.target.classList.contains("incompleta")) {
+          // si esta completa, la paso pendiente
           payload.completed = false
         } else {
-          payload.completed = true          
+          // si esta incompleta, la paso a TERMINADA
+          payload.completed = true  
         }
         console.log(payload);
 
         const settings = {
           method: "PUT",
+          body: JSON.stringify(payload),
           headers: {
             authorization: token,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
+            "content-type": "application/json"
+          }
         }
 
-        fetch(urlChange, settings)
-          .then( res => consultarTareas())
-          // .then( res => {
-            // console.log(res);
-            // // llamar a consultar tareas 
-            // consultarTareas()
-            // return res.json()
-          // })
-          // .then( data => {
-          //   console.log(data);
+        fetch( urlChange, settings )
+          .then( response => consultarTareas()) // refactorizacion... ya habiendo debugeado lo que viene a continuacion
+          // .then( response => {
+          //   console.log(response)
           //   consultarTareas()
-
-          // } )       
+          // })
           // .catch(err => console.log(err))
-      })
-    })  
+       })
+    })
   }
 
 
@@ -258,11 +242,33 @@ window.addEventListener('load', function () {
   /*                     FUNCIÓN 7 - Eliminar tarea [DELETE]                    */
   /* -------------------------------------------------------------------------- */
   function botonBorrarTarea() {
-   
+    //obtenemos los botones de borrado
+    const btnsBorrar = document.querySelectorAll('.borrar');
     
+    btnsBorrar.forEach(boton => {
+      //a cada boton de borrado le asignamos la funcionalidad
+      boton.addEventListener("click", (e) =>{
+        const id = e.target.id;
+        const urlDelete = urlTareas + `/${id}`      
+        
+        const settings = {
+          method: "DELETE",
+          headers: {
+            authorization: token,
+            "Content-Type" : "application/json"
+          }
+        }
 
-    
-
+        fetch(urlDelete,settings)
+        .then(response => {
+            console.log("Borrando tarea...");
+            console.log(response.status) // Como el status del objeto Response es 200, esto significa que ya se ha eliminado la tarea, por ende... no hace falta que haga otra acción con el objeto response
+            
+            // entonces sólo me queda llamar al método consultarTareas(), para que ésta me las actualice (haciendo un nuevo fetch) y las pinte nuevamente en pantalla.
+            consultarTareas();
+          })
+          .catch(err => console.log("Error: " + err)) // si hay un error identifico el problema.
+      })
+   })
   };
-
 });

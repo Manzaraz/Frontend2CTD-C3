@@ -259,7 +259,7 @@ window.addEventListener('load', function () {
           }
         }
 
-        fetch(urlDelete,settings)
+        fetch(urlDelete, settings)
         .then(response => {
             console.log("Borrando tarea...");
             console.log(response.status) // Como el status del objeto Response es 200, esto significa que ya se ha eliminado la tarea, por ende... no hace falta que haga otra acción con el objeto response

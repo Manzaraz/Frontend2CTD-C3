@@ -1,0 +1,16 @@
+{
+    "name": "ToDoApManzi",
+    "short_name": "ManziToDo",
+    "start_url": "index.html",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "background_color": "#fdfdfd",
+    "theme_color": "#49DB38",
+    "icons": [
+        {
+            "src": "/assets/icon.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}

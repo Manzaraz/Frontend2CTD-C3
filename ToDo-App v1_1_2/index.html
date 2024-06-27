@@ -13,6 +13,10 @@
   <!-- ---------------- estilos compartidos de login y signup ---------------- -->
   <link rel="stylesheet" href="./css/loginSignupStyles.css">
 
+  <!-- PWA: Vinculacion con el manifiesto json -->
+  <link rel="manifest" href="manifest.json" />
+
+
 
   <!-- ---------------------- logica aplicada en login ----------------------- -->
   <script src="./scripts/utils.js"></script>
@@ -61,7 +65,16 @@
     </div>
 
   </div>
-
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function() {
+        navigator.serviceWorker
+          .register("/serviceWorker.js")
+          .then(res => console.log("service worker registered"))
+          .catch(err => console.log("service worker not registered", err))
+      })
+    }
+  </script>
 </body>
 
 </html>

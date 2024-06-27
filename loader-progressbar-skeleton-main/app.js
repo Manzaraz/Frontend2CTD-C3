@@ -82,8 +82,6 @@ fetch(apiUrl)
         skeleton.remove()
 
         pokemon.innerHTML += componenteTarjeta(nombre, imagen, tipo)
-
-
     })
 
 
@@ -95,5 +93,5 @@ const componenteTarjeta = (name, img, type) => {
             <h6>Tipo: ${type}</h6>
         </article>
     
-    `
+    `   
 }

@@ -5,6 +5,10 @@ window.addEventListener('load', function () {
     const email = document.querySelector("#inputEmail")
     const password = document.querySelector("#inputPassword")
     const url = "https://todo-api.digitalhouse.com/v1"
+
+    const btn = document.querySelector('button');
+    const btnImg = document.querySelector('button img');
+    const btnTexto = document.querySelector('button span');
     
     // Aqui en este punto yo me encargo de mandar un a llamar la las funcion normalizar Texto y las validaciones
     // Cuando modifico el contenido del input se desencadena el evento el cual lo capturará la función que se encarga de validar
@@ -50,7 +54,11 @@ window.addEventListener('load', function () {
     /* -------------------------------------------------------------------------- */
     function realizarLogin(settings) {
         //  console.log(settings);
-      //  console.log("🏄🏻‍♂️Lanzando la consulta a la API....");
+        //  console.log("🏄🏻‍♂️Lanzando la consulta a la API....");
+        
+        //invertimos las clases para hacer el cambio del loading y deshabilitamos el botón para evitar que el usuario haga más de un click
+        invertirClases()
+        btn.setAttribute("disabled","")
 
         fetch(`${url}/users/login`, settings)
             .then( response => {
@@ -66,17 +74,27 @@ window.addEventListener('load', function () {
                //  console.log(data);
                //  console.log(data.jwt);
 
+                    
                 if (data.jwt) {
+                    //* para animar el loader en el boton
+                    setTimeout(() => {
+                        invertirClases()
+                        btn.removeAttribute("disabled")
+                    }, 3000);
+                    
                     // guardar el dato de JWT en el local storfage (ese token), para hacer el login
                     localStorage.setItem("jwt", JSON.stringify(data.jwt))
-
+                    
                     form.reset() // para limpiar los campos de los inputs del formulario
-
+                    
                     location.replace("./mis-tareas.html") // redireccionamos a nuestro dashboard de todo
                 }
-
+                
             })
             .catch( err => {
+                // en caso de que tengamos un mensaje de error, volvemos a habilitar el boton
+                invertirClases()
+                btn.removeAttribute("disabled")
                 ////  console.log(err);
                 ////  console.log(err.status);
 
@@ -95,6 +113,11 @@ window.addEventListener('load', function () {
                 }
             })        
     };
+
+    function invertirClases() {
+        btnImg.classList.toggle("oculto")
+        btnTexto.classList.toggle("oculto")
+    }
 });
 
 // {
